@@ -1,0 +1,59 @@
+services:
+  # PostgreSQL Database Service
+  postgres:
+    image: postgres:15
+    container_name: penzi-postgres
+    environment:
+      - POSTGRES_DB=penzi
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=2020
+    ports:
+      - "5501:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./Backend/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+    networks:
+      - penzi-network
+    restart: unless-stopped
+
+  # Backend Service
+  backend:
+    image: developermickie/penzi-backend:latest
+    build:
+      context: ./Backend
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=production
+    env_file:
+      - ./Backend/.env.docker
+    networks:
+      - penzi-network
+    volumes:
+      - ./Backend:/app
+    command: ["python", "run.py"]
+    depends_on:
+      - postgres
+
+  # Frontend Service
+  frontend:
+    image: developermickie/penzi-frontend:latest
+    build:
+      context: ./Frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://backend:5000
+    depends_on:
+      - backend
+    networks:
+      - penzi-network
+
+networks:
+  penzi-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
