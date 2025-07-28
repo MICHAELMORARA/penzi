@@ -38,7 +38,7 @@ def create_app():
                 "origins": [
                     "http://localhost:3000", 
                     "http://127.0.0.1:3000",
-                    "http://52.48.121.185:3000"
+                    "https://penzi.vercel.app"
                 ],
                 "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
                 "allow_headers": ["Content-Type", "Authorization"]
@@ -56,7 +56,7 @@ def create_app():
                 "origins": [
                     "http://localhost:3000", 
                     "http://127.0.0.1:3000",
-                    "http://52.48.121.185:3000"
+                    "https://penzi.vercel.app"
                 ],
                 "methods": ["GET"],
                 "allow_headers": ["Content-Type"]
@@ -65,7 +65,7 @@ def create_app():
                 "origins": [
                     "http://localhost:3000", 
                     "http://127.0.0.1:3000",
-                    "http://52.48.121.185:3000"
+                    "https://penzi.vercel.app"
                 ],
                 "methods": ["GET"],
                 "allow_headers": ["Content-Type"]
